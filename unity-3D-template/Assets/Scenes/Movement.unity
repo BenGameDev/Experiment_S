@@ -137,7 +137,7 @@ GameObject:
   - component: {fileID: 165642603}
   m_Layer: 6
   m_Name: Ceiling
-  m_TagString: Untagged
+  m_TagString: Roof
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -419,12 +419,56 @@ Transform:
   m_GameObject: {fileID: 751487120}
   serializedVersion: 2
   m_LocalRotation: {x: 0.096840486, y: -0, z: -0, w: 0.99529994}
-  m_LocalPosition: {x: 4.081859, y: 7.4, z: -13.87}
+  m_LocalPosition: {x: 4.081859, y: 6.313, z: -13.87}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1460410946}
+  m_LocalEulerAnglesHint: {x: 11.115, y: 0, z: 0}
+--- !u!1 &1190114950
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1190114952}
+  - component: {fileID: 1190114951}
+  m_Layer: 0
+  m_Name: GameManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1190114951
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1190114950}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d132715ce0365b441a217b1f3d4b0a8b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &1190114952
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1190114950}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.4917869, y: -7.950456, z: 23.407513}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 11.115, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1455656513
 GameObject:
   m_ObjectHideFlags: 0
@@ -533,6 +577,7 @@ GameObject:
   - component: {fileID: 1460410943}
   - component: {fileID: 1460410948}
   - component: {fileID: 1460410949}
+  - component: {fileID: 1460410950}
   m_Layer: 0
   m_Name: Slime
   m_TagString: Untagged
@@ -623,7 +668,8 @@ Transform:
   m_LocalPosition: {x: 0, y: 1.087, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 751487123}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1460410948
@@ -678,6 +724,25 @@ CharacterController:
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &1460410950
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1460410942}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3fe7f9b8984215943a59745d19f23ca9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pc: {fileID: 1460410948}
+  slimePosition: {x: 0, y: 0, z: 0}
+  grappleDirection: {x: 0, y: 0, z: 0}
+  grapplePoint: {x: 0, y: 0, z: 0}
+  grappleSpeed: 1
+  previousVelocity: 0
+  grappleHook: {fileID: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -685,5 +750,5 @@ SceneRoots:
   - {fileID: 1455656515}
   - {fileID: 630152064}
   - {fileID: 165642606}
-  - {fileID: 751487123}
   - {fileID: 1460410946}
+  - {fileID: 1190114952}
