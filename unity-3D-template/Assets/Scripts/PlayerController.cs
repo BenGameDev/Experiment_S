@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
@@ -20,6 +21,9 @@ public class PlayerController : MonoBehaviour
     public float x;
 
     public bool usedDash;
+    public bool freeze;
+    public bool activeGrapple;
+    public bool enableMovementOnNextTouch = true;
 
     // Start is called before the first frame update
     void Start()
@@ -32,10 +36,20 @@ public class PlayerController : MonoBehaviour
     {
         x = Input.GetAxis("Horizontal");
         Movement();
+
+        if(freeze)
+        {
+            speed = 0;
+        }
+        else if(!freeze) 
+        {
+            speed = 10;
+        }
     }
 
     public void Movement()
     {
+        if (activeGrapple) { return; }
         Vector3 input = transform.right * x;
 
         controller.Move(input * speed * Time.deltaTime);
@@ -68,6 +82,37 @@ public class PlayerController : MonoBehaviour
         
     }
 
+    public void JumpToPosition(Vector3 targetPosition, float trajectoryHeight)
+    {
+        activeGrapple = true;
+        velocityToSet = CalculateJumpVelocity(transform.position, targetPosition, trajectoryHeight);
+        Invoke(nameof(SetVelocity), 0.1f);
+
+        Invoke(nameof(ResetRestrictions), 3f);
+    }
+
+    private Vector3 velocityToSet;
+
+    private void SetVelocity()
+    {
+        enableMovementOnNextTouch = true;
+        controller.Move(velocityToSet);
+    }
+
+    public void ResetRestrictions()
+    {
+        activeGrapple = false;
+    }
+    private void OnCollisionEnter(Collision collision)
+    {
+        if(enableMovementOnNextTouch) 
+        {
+            enableMovementOnNextTouch = false;
+            ResetRestrictions();
+
+            GetComponent<Grapple>().StopGrapple();
+        }
+    }
     public void Dash()
     {
         if (Input.GetKeyDown(KeyCode.LeftShift) && usedDash == false)
@@ -95,6 +140,19 @@ public class PlayerController : MonoBehaviour
             controller.Move(velocity * Time.deltaTime);
         }
 
+    }
+
+    public Vector3 CalculateJumpVelocity(Vector3 startPoint, Vector3 endPoint, float trajectoryHeight)
+    {
+        float gravity = Physics.gravity.y;
+        float displacementY = endPoint.y - startPoint.y;
+        Vector3 displacementXZ = new Vector3(endPoint.x - startPoint.x, 0f, endPoint.z - startPoint.z);
+
+        Vector3 velocityY = Vector3.up * Mathf.Sqrt(-2 * gravity * trajectoryHeight);
+        Vector3 velocityXZ = displacementXZ / (Mathf.Sqrt(-2 * trajectoryHeight / gravity)
+            + Mathf.Sqrt(2 * (displacementY - trajectoryHeight) / gravity));
+
+        return velocityXZ + velocityY;
     }
 
     public bool IsGrounded()
